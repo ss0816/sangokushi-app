@@ -56,8 +56,10 @@ function skillKey(slot: SlotKey, pos: 2 | 3): keyof Formation {
 // ─── コスト合計 ─────────────────────────────────────────────────────────────
 function totalCost(f: Formation, allGenerals: General[]): number {
   return [f.general1_id, f.general2_id, f.general3_id]
-    .filter(Boolean)
-    .reduce((sum, id) => sum + (allGenerals.find(g => g.id === id)?.cost ?? 0), 0)
+    .filter((id): id is number => id !== null)
+    .reduce((sum, id) => {
+      return sum + (allGenerals.find(g => g.id === id)?.cost ?? 0)
+    }, 0)
 }
 
 // ─── DraggableGeneralCard（左パネル用） ────────────────────────────────────
